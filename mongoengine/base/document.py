@@ -91,8 +91,8 @@ class BaseDocument(object):
         for key, field in self._fields.iteritems():
             if self._db_field_map.get(key, key) in __only_fields:
                 continue
-            value = getattr(self, key, None)
-            setattr(self, key, value)
+            if not hasattr(self, key):
+                setattr(self, key, None)
 
         if "_cls" not in values:
             self._cls = self._class_name
