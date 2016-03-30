@@ -21,6 +21,9 @@ UPDATE_OPERATORS = set(['set', 'unset', 'inc', 'dec', 'pop', 'push',
                         'set_on_insert', 'min', 'max'])
 
 
+class EmbeddedDocument(object):
+    pass
+
 class BaseField(object):
     """A base class for fields in a MongoDB document. Instances of this class
     may be added to subclasses of `Document` to define a document's schema.
@@ -138,7 +141,8 @@ class BaseField(object):
                 # So mark it as changed
                 instance._mark_as_changed(self.name)
 
-        EmbeddedDocument = _import_class('EmbeddedDocument')
+        # TODO 8% gain by not running this block
+        #EmbeddedDocument = _import_class('EmbeddedDocument')
         if isinstance(value, EmbeddedDocument):
             value._instance = weakref.proxy(instance)
         elif isinstance(value, (list, tuple)):

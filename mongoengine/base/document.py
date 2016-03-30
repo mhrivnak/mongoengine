@@ -72,6 +72,7 @@ class BaseDocument(object):
         # Check if there are undefined fields supplied to the constructor,
         # if so raise an Exception.
         if not self._dynamic and (self._meta.get('strict', True) or _created):
+            # TODO replace loop with set comparison
             for var in values.keys():
                 if var not in self._fields.keys() + ['id', 'pk', '_cls', '_text_score']:
                     msg = (
@@ -91,8 +92,10 @@ class BaseDocument(object):
         for key, field in self._fields.iteritems():
             if self._db_field_map.get(key, key) in __only_fields:
                 continue
-            if not hasattr(self, key):
-                setattr(self, key, None)
+            x = getattr(self, key, None)
+            setattr(self, key, x)
+            #if not hasattr(self, key):
+                #setattr(self, key, None)
 
         if "_cls" not in values:
             self._cls = self._class_name

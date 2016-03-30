@@ -995,6 +995,7 @@ class FieldTest(unittest.TestCase):
         self.assertEqual(room.staffs_with_position[0]['staff'], sarah)
         self.assertEqual(room.staffs_with_position[1]['staff'], bob)
 
+    # this fails because the default value isn't getting set
     def test_document_reload_no_inheritance(self):
         class Foo(Document):
             meta = {'allow_inheritance': False}
